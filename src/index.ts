@@ -1,5 +1,4 @@
 import express from "express"
-import pkill from "tree-kill"
 
 const app = express();
 const portstring = process.argv[2] ?? process.env["PORT"];
