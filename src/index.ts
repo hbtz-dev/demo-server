@@ -1,6 +1,7 @@
 import express from "express"
 
 const app = express();
+let message = process.env["MESSAGE"] ?? "Hello world!";
 const portstring = process.argv[2] ?? process.env["PORT"];
 if (!portstring) {
     throw new Error("port must be provided as arg or environment variable");
@@ -10,16 +11,15 @@ if (isNaN(port)) {
     throw new Error(`invalid port ${portstring}`);
 }
 
-let s = "Hello world!";
 app.get('/', (_, res) => {
-    res.send(s)
+    res.send(message);
 })
 
 const serv = app.listen(port);
 console.log("listening on", port);
 
 process.on("SIGTERM", () => {
-    s = "This server got a SIGTERM and will terminate soon!";
+    message = "This server got a SIGTERM and will terminate soon!";
     console.log("SIGTERM received!");
 
     setTimeout(() => serv.close(), 5000);
